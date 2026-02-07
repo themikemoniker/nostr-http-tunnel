@@ -8,6 +8,9 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces",
-    "clean": "rm -rf packages/*/dist"
+    "clean": "rm -rf packages/*/dist",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "npm run test --workspace=packages/protocol && npm run test --workspace=packages/agent",
+    "test:integration": "npm run build && node --experimental-strip-types --test test/integration.test.ts"
   }
 }
