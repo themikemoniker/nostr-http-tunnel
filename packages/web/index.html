@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nostr HTTP Tunnel</title>
+</head>
+<body>
+  <div id="app">
+    <h1>Nostr HTTP Tunnel</h1>
+    <p>Send HTTP requests through Nostr relays, directly from your browser.</p>
+
+    <form id="tunnel-form">
+      <fieldset>
+        <legend>Connection</legend>
+        <label>
+          Agent npub
+          <input type="text" id="npub" placeholder="npub1..." required />
+        </label>
+        <label>
+          Relays (comma-separated)
+          <input type="text" id="relays" value="wss://relay.damus.io, wss://nos.lol" />
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Request</legend>
+        <div class="row">
+          <label>
+            Method
+            <select id="method">
+              <option>GET</option>
+              <option>POST</option>
+              <option>PUT</option>
+              <option>DELETE</option>
+              <option>PATCH</option>
+            </select>
+          </label>
+          <label class="grow">
+            Path
+            <input type="text" id="path" value="/" required />
+          </label>
+        </div>
+        <label>
+          Headers (JSON)
+          <textarea id="headers" rows="2" placeholder='{"content-type": "application/json"}'></textarea>
+        </label>
+        <label>
+          Body
+          <textarea id="body" rows="4" placeholder="Request body (for POST/PUT/PATCH)"></textarea>
+        </label>
+      </fieldset>
+
+      <button type="submit" id="send-btn">Send Request</button>
+    </form>
+
+    <section id="response-section" hidden>
+      <h2>Response</h2>
+      <div id="status-line"></div>
+      <details>
+        <summary>Headers</summary>
+        <pre id="response-headers"></pre>
+      </details>
+      <pre id="response-body"></pre>
+    </section>
+
+    <div id="error-section" hidden>
+      <h2>Error</h2>
+      <pre id="error-message"></pre>
+    </div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

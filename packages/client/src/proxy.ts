@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
-import { TunnelClient, type TunnelFetchOptions } from './client.js';
+import { TunnelClient, type TunnelFetchOptions } from './index.js';
 import type { HttpMethod } from '@nostr-http-tunnel/protocol';
 
 function parseArgs(): { npub?: string; pubkey?: string; relays: string[]; port: number; privateKey?: string; timeout?: number } {

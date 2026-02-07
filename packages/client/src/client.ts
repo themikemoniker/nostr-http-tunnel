@@ -1,4 +1,4 @@
-import { SimplePool, useWebSocketImplementation } from 'nostr-tools/pool';
+import { SimplePool } from 'nostr-tools/pool';
 import { generateSecretKey, getPublicKey, type Event } from 'nostr-tools/pure';
 import { wrapEvent, unwrapEvent } from 'nostr-tools/nip17';
 import * as nip19 from 'nostr-tools/nip19';
@@ -9,7 +9,6 @@ function hexToBytes(hex: string): Uint8Array {
   }
   return bytes;
 }
-import WebSocket from 'ws';
 import {
   createRequest,
   serialize,
@@ -19,8 +18,6 @@ import {
   type TunnelResponseMessage,
   isErrorResponse,
 } from '@nostr-http-tunnel/protocol';
-
-useWebSocketImplementation(WebSocket);
 
 export interface TunnelClientOptions {
   serviceNpub?: string;       // bech32 npub of the agent
@@ -135,7 +132,7 @@ export class TunnelClient {
                 resolve({
                   status: response.status,
                   headers: response.headers,
-                  body: bodyBuf ? bodyBuf.toString('utf-8') : '',
+                  body: bodyBuf ? new TextDecoder().decode(bodyBuf) : '',
                 });
               }
             } catch {

@@ -4,7 +4,8 @@
   "workspaces": [
     "packages/protocol",
     "packages/agent",
-    "packages/client"
+    "packages/client",
+    "packages/web"
   ],
   "scripts": {
     "build": "npm run build --workspaces",

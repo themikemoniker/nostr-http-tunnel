@@ -1,8 +1,3 @@
-import WebSocket from 'ws';
-import { useWebSocketImplementation } from 'nostr-tools/pool';
-
-useWebSocketImplementation(WebSocket);
-
 export {
   TunnelClient,
   createTunnelClient,

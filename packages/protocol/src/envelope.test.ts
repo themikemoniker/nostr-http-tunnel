@@ -133,11 +133,11 @@ describe('deserializeResponse validation', () => {
 
 describe('decodeBody', () => {
   it('decodes base64 to the original bytes', () => {
-    const original = Buffer.from('hello world');
-    const encoded = original.toString('base64');
+    const original = new TextEncoder().encode('hello world');
+    const encoded = 'aGVsbG8gd29ybGQ=';
     const decoded = decodeBody(encoded);
     assert.ok(decoded);
-    assert.ok(original.equals(decoded));
+    assert.deepEqual(decoded, original);
   });
 
   it('returns null for null input', () => {

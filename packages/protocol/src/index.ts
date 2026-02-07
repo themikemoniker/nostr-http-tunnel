@@ -17,3 +17,5 @@ export {
   deserializeResponse,
   decodeBody,
 } from './envelope.js';
+
+export { encodeBase64, decodeBase64 } from './base64.js';

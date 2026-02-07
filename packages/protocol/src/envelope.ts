@@ -1,4 +1,3 @@
-import { randomUUID } from 'node:crypto';
 import {
   PROTOCOL_VERSION,
   type HttpMethod,
@@ -7,26 +6,40 @@ import {
   type TunnelErrorResponse,
   type TunnelResponseMessage,
 } from './types.js';
+import { encodeBase64, decodeBase64 } from './base64.js';
+
+const encoder = new TextEncoder();
+
+/** Generate a UUID v4, using crypto.randomUUID when available */
+function generateId(): string {
+  if (typeof globalThis.crypto?.randomUUID === 'function') {
+    return globalThis.crypto.randomUUID();
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+}
 
 /** Create a tunnel request envelope */
 export function createRequest(
   method: HttpMethod,
   path: string,
   headers: Record<string, string> = {},
-  body?: string | Buffer | null,
+  body?: string | Uint8Array | null,
 ): TunnelRequest {
   let encodedBody: string | null = null;
   if (body != null) {
-    if (Buffer.isBuffer(body)) {
-      encodedBody = body.toString('base64');
+    if (body instanceof Uint8Array) {
+      encodedBody = encodeBase64(body);
     } else {
-      encodedBody = Buffer.from(body, 'utf-8').toString('base64');
+      encodedBody = encodeBase64(encoder.encode(body));
     }
   }
 
   return {
     v: PROTOCOL_VERSION,
-    id: randomUUID(),
+    id: generateId(),
     method,
     path: path.startsWith('/') ? path : `/${path}`,
     headers,
@@ -39,14 +52,14 @@ export function createResponse(
   requestId: string,
   status: number,
   headers: Record<string, string>,
-  body?: Buffer | null,
+  body?: Uint8Array | null,
 ): TunnelResponse {
   return {
     v: PROTOCOL_VERSION,
     id: requestId,
     status,
     headers,
-    body: body ? body.toString('base64') : null,
+    body: body ? encodeBase64(body) : null,
   };
 }
 
@@ -83,10 +96,10 @@ export function deserializeResponse(json: string): TunnelResponseMessage {
   return parsed;
 }
 
-/** Decode a base64-encoded body to a Buffer */
-export function decodeBody(body: string | null): Buffer | null {
+/** Decode a base64-encoded body to a Uint8Array */
+export function decodeBody(body: string | null): Uint8Array | null {
   if (body == null) return null;
-  return Buffer.from(body, 'base64');
+  return decodeBase64(body);
 }
 
 function validateRequest(obj: unknown): asserts obj is TunnelRequest {
