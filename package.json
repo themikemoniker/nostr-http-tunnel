@@ -1,0 +1,13 @@
+{
+  "name": "nostr-http-tunnel",
+  "private": true,
+  "workspaces": [
+    "packages/protocol",
+    "packages/agent",
+    "packages/client"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "clean": "rm -rf packages/*/dist"
+  }
+}

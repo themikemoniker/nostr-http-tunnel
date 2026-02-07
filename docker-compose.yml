@@ -1,0 +1,18 @@
+services:
+  # Example web app — replace with your own
+  myapp:
+    image: nginx:alpine
+    # No published ports needed — accessed via tunnel
+
+  nostr-tunnel:
+    build:
+      context: .
+      dockerfile: packages/agent/Dockerfile
+    environment:
+      - TARGET_URL=http://myapp:80
+      - RELAY_URLS=wss://relay.damus.io,wss://nos.lol,wss://relay.nostr.band
+      # Optionally set NOSTR_PRIVATE_KEY, otherwise auto-generated on first run
+    volumes:
+      - ./tunnel-data:/data
+    depends_on:
+      - myapp

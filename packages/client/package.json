@@ -1,0 +1,23 @@
+{
+  "name": "@nostr-http-tunnel/client",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "nostr-tunnel-proxy": "dist/proxy.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start:proxy": "node dist/proxy.js"
+  },
+  "dependencies": {
+    "@nostr-http-tunnel/protocol": "0.1.0",
+    "nostr-tools": "^2.10.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.0",
+    "typescript": "^5.7.0"
+  }
+}
