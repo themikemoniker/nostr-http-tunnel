@@ -1,0 +1,30 @@
+{
+  "name": "@nostr-http-tunnel/widget",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/lightning-widget.umd.cjs",
+  "module": "dist/lightning-widget.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/lightning-widget.js",
+      "require": "./dist/lightning-widget.umd.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@nostr-http-tunnel/client": "0.1.0",
+    "@nostr-http-tunnel/protocol": "0.1.0",
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0"
+  }
+}
