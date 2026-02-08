@@ -56,12 +56,19 @@
 
     <section id="response-section" hidden>
       <h2>Response</h2>
-      <div id="status-line"></div>
+      <div id="response-toolbar">
+        <span id="status-line"></span>
+        <div id="view-toggle">
+          <button type="button" id="btn-rendered" class="toggle-btn active">Rendered</button>
+          <button type="button" id="btn-raw" class="toggle-btn">Raw</button>
+        </div>
+      </div>
       <details>
         <summary>Headers</summary>
         <pre id="response-headers"></pre>
       </details>
-      <pre id="response-body"></pre>
+      <iframe id="response-rendered" sandbox="allow-same-origin"></iframe>
+      <pre id="response-body" hidden></pre>
     </section>
 
     <div id="error-section" hidden>
