@@ -1,25 +1,25 @@
 services:
   phoenixd-proxy:
     image: node:22-slim
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    network_mode: host
     volumes:
       - ./phoenixd-proxy:/app:ro
     working_dir: /app
     command: node proxy.mjs
     environment:
       - PHOENIXD_PASSWORD=${PHOENIXD_PASSWORD}
-      - PHOENIXD_HOST=host.docker.internal
+      - PHOENIXD_HOST=127.0.0.1
       - PHOENIXD_PORT=9740
       - PROXY_PORT=3001
-      - PROXY_BIND=0.0.0.0
+      - PROXY_BIND=127.0.0.1
 
   nostr-tunnel:
     build:
       context: .
       dockerfile: packages/agent/Dockerfile
+    network_mode: host
     environment:
-      - TARGET_URL=http://phoenixd-proxy:3001
+      - TARGET_URL=http://127.0.0.1:3001
       - RELAY_URLS=wss://relay.damus.io,wss://nos.lol,wss://relay.nostr.band
     volumes:
       - ./tunnel-data:/data
