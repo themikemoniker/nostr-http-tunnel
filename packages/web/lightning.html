@@ -12,47 +12,74 @@
       <a href="./lightning.html" class="active">Lightning</a>
     </nav>
 
-    <h1>Lightning Payment</h1>
-    <p>Request a Lightning invoice from your node through the Nostr tunnel.</p>
-
-    <fieldset id="connection-config">
-      <legend>Connection</legend>
-      <label>
-        Agent npub
-        <input type="text" id="npub" placeholder="npub1..." required />
-      </label>
-      <label>
-        Relays (comma-separated)
-        <input type="text" id="relays" value="wss://relay.damus.io, wss://nos.lol" />
-      </label>
-    </fieldset>
-
-    <fieldset>
-      <legend>Invoice</legend>
-      <label>
-        Amount (sats)
-        <input type="number" id="amount" min="1" value="1000" required />
-      </label>
-      <label>
-        Description
-        <input type="text" id="description" value="Nostr tunnel payment" />
-      </label>
-    </fieldset>
-
-    <button type="button" id="request-btn">Request Invoice</button>
-
-    <section id="invoice-section" hidden>
-      <div id="qr-container"></div>
-      <div id="invoice-string-container">
-        <code id="invoice-string"></code>
-        <button type="button" id="copy-btn">Copy</button>
+    <div class="ln-card">
+      <div class="ln-header">
+        <svg class="ln-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
+        <h1>Zap Me</h1>
+        <p>Send a Lightning payment through Nostr</p>
       </div>
-      <div id="invoice-info"></div>
-    </section>
 
-    <div id="error-section" hidden>
-      <h2>Error</h2>
-      <pre id="error-message"></pre>
+      <details class="ln-connection">
+        <summary>Connection</summary>
+        <label>
+          Agent npub
+          <input type="text" id="npub" placeholder="npub1..." required />
+        </label>
+        <label>
+          Relays
+          <input type="text" id="relays" value="wss://relay.damus.io, wss://nos.lol" />
+        </label>
+      </details>
+
+      <div class="ln-toggle">
+        <button type="button" class="ln-toggle-btn active" data-mode="bolt11">BOLT11</button>
+        <button type="button" class="ln-toggle-btn" data-mode="bolt12">BOLT12</button>
+      </div>
+
+      <div id="bolt11-panel">
+        <div class="ln-amounts">
+          <button type="button" class="ln-amt" data-sat="100">100 <span>sats</span></button>
+          <button type="button" class="ln-amt" data-sat="500">500 <span>sats</span></button>
+          <button type="button" class="ln-amt selected" data-sat="1000">1k <span>sats</span></button>
+          <button type="button" class="ln-amt" data-sat="5000">5k <span>sats</span></button>
+          <button type="button" class="ln-amt" data-sat="10000">10k <span>sats</span></button>
+          <button type="button" class="ln-amt" data-sat="custom">Custom</button>
+        </div>
+
+        <div id="custom-amount-row" class="ln-custom" hidden>
+          <input type="number" id="custom-amount" min="1" placeholder="Amount in sats" />
+        </div>
+
+        <input type="text" id="description" class="ln-desc" value="Nostr tunnel payment" placeholder="Message (optional)" />
+
+        <button type="button" id="request-btn" class="ln-pay-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>
+          Request Invoice
+        </button>
+      </div>
+
+      <div id="bolt12-panel" hidden>
+        <p class="ln-bolt12-info">Get the BOLT12 offer for this node. Paste it into a compatible wallet to pay any amount.</p>
+        <button type="button" id="offer-btn" class="ln-pay-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>
+          Get Offer
+        </button>
+      </div>
+
+      <section id="invoice-section" hidden>
+        <div id="qr-container"></div>
+        <div id="invoice-string-container">
+          <code id="invoice-string"></code>
+          <button type="button" id="copy-btn">Copy</button>
+        </div>
+        <div id="invoice-info"></div>
+      </section>
+
+      <div id="error-section" hidden>
+        <pre id="error-message"></pre>
+      </div>
     </div>
   </div>
   <script type="module" src="/src/lightning.ts"></script>
