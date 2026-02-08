@@ -1,6 +1,17 @@
 import { createTunnelClient, type TunnelClient, type TunnelFetchResponse } from '@nostr-http-tunnel/client';
 import type { HttpMethod } from '@nostr-http-tunnel/protocol';
+import { loadConfig } from './config.js';
 import './style.css';
+
+// Load config and pre-fill form
+loadConfig().then(config => {
+  if (config.npub) {
+    (document.getElementById('npub') as HTMLInputElement).value = config.npub;
+  }
+  if (config.relays.length) {
+    (document.getElementById('relays') as HTMLInputElement).value = config.relays.join(', ');
+  }
+});
 
 const form = document.getElementById('tunnel-form') as HTMLFormElement;
 const sendBtn = document.getElementById('send-btn') as HTMLButtonElement;

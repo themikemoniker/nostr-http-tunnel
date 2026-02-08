@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lightning Payment - Nostr HTTP Tunnel</title>
+</head>
+<body>
+  <div id="app">
+    <nav id="nav">
+      <a href="./">Explorer</a>
+      <a href="./lightning.html" class="active">Lightning</a>
+    </nav>
+
+    <h1>Lightning Payment</h1>
+    <p>Request a Lightning invoice from your node through the Nostr tunnel.</p>
+
+    <fieldset id="connection-config">
+      <legend>Connection</legend>
+      <label>
+        Agent npub
+        <input type="text" id="npub" placeholder="npub1..." required />
+      </label>
+      <label>
+        Relays (comma-separated)
+        <input type="text" id="relays" value="wss://relay.damus.io, wss://nos.lol" />
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Invoice</legend>
+      <label>
+        Amount (sats)
+        <input type="number" id="amount" min="1" value="1000" required />
+      </label>
+      <label>
+        Description
+        <input type="text" id="description" value="Nostr tunnel payment" />
+      </label>
+    </fieldset>
+
+    <button type="button" id="request-btn">Request Invoice</button>
+
+    <section id="invoice-section" hidden>
+      <div id="qr-container"></div>
+      <div id="invoice-string-container">
+        <code id="invoice-string"></code>
+        <button type="button" id="copy-btn">Copy</button>
+      </div>
+      <div id="invoice-info"></div>
+    </section>
+
+    <div id="error-section" hidden>
+      <h2>Error</h2>
+      <pre id="error-message"></pre>
+    </div>
+  </div>
+  <script type="module" src="/src/lightning.ts"></script>
+</body>
+</html>

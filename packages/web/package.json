@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@nostr-http-tunnel/client": "0.1.0",
-    "@nostr-http-tunnel/protocol": "0.1.0"
+    "@nostr-http-tunnel/protocol": "0.1.0",
+    "qrcode": "^1.5.4"
   },
   "devDependencies": {
     "typescript": "^5.7.0",
