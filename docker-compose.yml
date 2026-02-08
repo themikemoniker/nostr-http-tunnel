@@ -1,18 +1,27 @@
 services:
-  # Example web app — replace with your own
-  myapp:
-    image: nginx:alpine
-    # No published ports needed — accessed via tunnel
+  phoenixd-proxy:
+    image: node:22-slim
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./phoenixd-proxy:/app:ro
+    working_dir: /app
+    command: node proxy.mjs
+    environment:
+      - PHOENIXD_PASSWORD=${PHOENIXD_PASSWORD}
+      - PHOENIXD_HOST=host.docker.internal
+      - PHOENIXD_PORT=9740
+      - PROXY_PORT=3001
+      - PROXY_BIND=0.0.0.0
 
   nostr-tunnel:
     build:
       context: .
       dockerfile: packages/agent/Dockerfile
     environment:
-      - TARGET_URL=http://myapp:80
+      - TARGET_URL=http://phoenixd-proxy:3001
       - RELAY_URLS=wss://relay.damus.io,wss://nos.lol,wss://relay.nostr.band
-      # Optionally set NOSTR_PRIVATE_KEY, otherwise auto-generated on first run
     volumes:
       - ./tunnel-data:/data
     depends_on:
-      - myapp
+      - phoenixd-proxy
